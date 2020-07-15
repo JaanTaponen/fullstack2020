@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 const Statistics = ({good, bad, neutral}) => {
   const all = () => good + neutral + bad
   const average = () => (good - bad) / all()
-  const positive = () => good / all() * 100 
+  const positive = () => (good / all() * 100) + " %" 
 
   if (all() === 0) {
     return (
@@ -22,7 +22,7 @@ const Statistics = ({good, bad, neutral}) => {
             <Statistic text="neutral" value={neutral}/>
             <Statistic text="bad" value={bad}/>
             <Statistic text="average" value={average()}/>
-            <Statistic text="positive %" value={positive()}/>
+            <Statistic text="positive" value={positive()}/>
           </tbody>
         </table>
       </>
