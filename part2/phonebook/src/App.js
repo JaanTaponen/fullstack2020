@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Filter = ({ handleFilterChange }) => {
   return (
@@ -23,7 +23,7 @@ const PersonForm = ({ newPerson, handleNameChange, handleNumberChange }) => {
 const Persons = ({ newFilter, persons }) => {
   const numbersToShow = newFilter.length === 0
     ? persons
-    : persons.filter(person => person.name.toLowerCase().includes(newFilter))
+    : persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
   const names = numbersToShow.map(p =>
     <p key={p.name}>{p.name} {p.number}</p>)
   return (
@@ -43,24 +43,12 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
-  const handleNameChange = (event) => {
-    //console.log(event.target.value)
-    setNewName(event.target.value)
-  }
-
-  const handleNumberChange = (event) => {
-    //console.log(event.target.value)
-    setNewNumber(event.target.value)
-  }
-
-  const handleFilterChange = (event) => {
-    //console.log(event.target.value)
-    setNewFilter(event.target.value)
-  }
+  const handleNameChange = (event) => {setNewName(event.target.value)}
+  const handleNumberChange = (event) => {setNewNumber(event.target.value)}
+  const handleFilterChange = (event) => {setNewFilter(event.target.value)}
 
   const newPerson = (event) => {
     event.preventDefault()
-
     if (persons.map(p => p.name).includes(newName)) {
       alert(`${newName} is already added to phonebook`)
     } else {
@@ -69,9 +57,16 @@ const App = () => {
         number: newNumber
       }
       setPersons(persons.concat(person))
-      //setNewName('')
     }
   }
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   return (
     <div>
