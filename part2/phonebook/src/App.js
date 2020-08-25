@@ -83,24 +83,30 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
           setMessage({ content: `Added '${returnedPerson.name}'`, status: true })
           setTimeout(() => {
             setMessage(null)
           }, 5000)
-          setPersons(persons.concat(returnedPerson))
+        })
+        .catch(error => {
+          setMessage({ content: error.response.data.error, status: false })
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
 
   const deletePerson = (event) => {
-    const personToDelete = persons.find(p => p.id === parseInt(event.target.value))
+    const personToDelete = persons.find(p => p.id === event.target.value)
     const id = personToDelete.id
 
     if (window.confirm(`Really want to delete? ${personToDelete.name}`)) {
       personService
         .deleteJSON(id)
         .then(returnedStatus => {
-          if (returnedStatus === 200) {
+          if (returnedStatus === 204) {
             const updatedPersons = [...persons].filter(p => p.id !== id)
             setPersons(updatedPersons)
           }
