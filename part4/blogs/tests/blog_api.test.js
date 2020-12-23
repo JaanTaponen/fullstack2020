@@ -42,7 +42,7 @@ test('a valid blog can be added ', async () => {
     const newBlog = {
         'title': 'lmao',
         'author': 'Jonne',
-        'url': 'http://localhost2',
+        'url': 'http://localhost',
         'likes': '8'
     }
 
@@ -81,7 +81,7 @@ test('likes default to 0', async () => {
     const newBlog = {
         'title': 'lmao',
         'author': 'Jonne',
-        'url': 'http://localhost2'
+        'url': 'http://localhost'
     }
     await api
         .post('/api/blogs')
@@ -113,7 +113,7 @@ test('a blog can be updated with id', async () => {
     const newBlog = {
         'title': 'lmao',
         'author': 'Jonne',
-        'url': 'http://localhost2',
+        'url': 'http://localhost',
         'likes': '8'
     }
 
